@@ -69,7 +69,7 @@ jobs:
       changed-files-count: ${{ steps.detect.outputs.changed-files-count }}
     steps:
       - name: 🛫 Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{ env.HEAD_REF }}
@@ -108,7 +108,7 @@ jobs:
 
       - name: 🔎 Detect changes
         id: detect
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           CHECK_MODE: "detect"
         with:
@@ -130,7 +130,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: 🛫 Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
           ref: ${{ env.HEAD_REF }}
@@ -155,7 +155,7 @@ jobs:
           cache-key-prefix: 'hygiene-${{ github.event.pull_request.number || github.run_id }}'
 
       - name: 🎨 Run format check
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           CHECK_MODE: "format"
         with:
@@ -184,7 +184,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: 🛫 Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
           ref: ${{ env.HEAD_REF }}
@@ -209,7 +209,7 @@ jobs:
           cache-key-prefix: 'hygiene-${{ github.event.pull_request.number || github.run_id }}'
 
       - name: 🔍 Run lint check
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           CHECK_MODE: "lint"
         with:
@@ -238,7 +238,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: 🛫 Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
           ref: ${{ env.HEAD_REF }}
@@ -266,7 +266,7 @@ jobs:
         run: npm run build:components
 
       - name: 🧪 Run test check
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           CHECK_MODE: "test"
         with:
@@ -305,7 +305,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: 🛫 Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{ env.HEAD_REF }}
@@ -330,7 +330,7 @@ jobs:
           cache-key-prefix: 'hygiene-${{ github.event.pull_request.number || github.run_id }}'
 
       - name: 📊 Compute statistics
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           CHECK_MODE: "stats"
         with:
@@ -358,7 +358,7 @@ jobs:
     if: always() && (needs.setup.outputs.has-changes == 'true' || github.event_name == 'workflow_dispatch')
     steps:
       - name: 🛫 Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
 
@@ -390,7 +390,7 @@ jobs:
           merge-multiple: true
 
       - name: 📋 Generate summary and post comment
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHECK_MODE: "summary"
@@ -429,7 +429,7 @@ jobs:
 
       - name: 🏷️ Label Dependabot PR on failure
         if: steps.final-status.outputs.has-failures == 'true' && github.actor == 'dependabot[bot]'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const prNumber = context.payload.pull_request?.number;
